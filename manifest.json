@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "JP Knockout Context",
+  "version": "1.0",
+  "description": "Inspector de uiComponents Magento 2",
+  "devtools_page": "devtools.html",
+  "permissions": ["scripting", "activeTab"]
+}
