@@ -60,8 +60,24 @@ document.getElementById("inspect").addEventListener("click", () => {
                 });
                 html += "</ol>";
             }
+            //console.json(parsed);
+
+            var script = document.createElement('script'),
+                code   = document.createTextNode('(' + parsed + ')();');
+            script.appendChild(code);
+            //(document.body || document.head || document.documentElement).appendChild(script);
 
             document.getElementById("output").innerHTML = html;
+
+            document.getElementById("filter").addEventListener("change", (event, elem) => {
+                var filter = event.target.value;
+                if(filter in parsed){
+                    var formatted = JSON.stringify(parsed[filter], undefined, 2);
+                    document.getElementById("outputFilter").innerHTML = `<pre>${formatted}</pre>`
+                }
+            });
+
+            //document.getElementById("output").appendChild(script);
         } catch (e) {
             document.getElementById("output").textContent = result;
         }
