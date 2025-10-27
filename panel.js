@@ -40,6 +40,9 @@ document.getElementById("inspect").addEventListener("click", () => {
             if (keys.length) {
                 html += "<h4>Propiedades del Context:</h4><ol>";
                 keys.forEach(k => {
+                    if(k === 'containers'){
+                        return
+                    }
                     let value = parsed[k];
 
                     if (typeof value === "object") {
