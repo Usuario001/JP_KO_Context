@@ -46,11 +46,28 @@ document.getElementById("inspect").addEventListener("click", () => {
                         // mostrar las claves internas si hay
                         const innerKeys = Object.keys(value);
                         if (innerKeys.length) {
-                            html += `<details><summary>${k}:</summary>`;
-                            innerKeys.forEach(ik => {
-                                html += `<pre>${JSON.stringify(value)}</pre>`;
-                            });
-                            html += "</details>";
+
+                            if (innerKeys.length > 1) {
+                                //html += `<div>${k}:`;
+                                html += `<details><summary>${k}</summary><pre>`
+                                        
+                                innerKeys.forEach(ik => {
+                                    html +=`${JSON.stringify(value, undefined, 2)}`;
+                                });
+                                html += `</pre></details>`;
+
+                            } else{
+                                innerKeys.forEach(ik => {
+                                    var template = `
+                                        <details>
+                                            <summary>${k}</summary>
+                                            <pre>${JSON.stringify(value, undefined, 2)}</pre>
+                                        </details>`;
+                                    html += template;
+                                }); 
+                            }
+                            
+                            
                         } else {
                             html += `<details><summary>${k}:</strong> <pre>{}</pre></details>`;
                         }
@@ -58,7 +75,6 @@ document.getElementById("inspect").addEventListener("click", () => {
                         html += `<details><summary>${k}:</summary> <pre>${JSON.stringify(parsed[k], undefined, 2)}</pre></details>`;
                     }
                 });
-                html += "</div>";
             }
             //console.json(parsed);
 
