@@ -38,7 +38,7 @@ document.getElementById("inspect").addEventListener("click", () => {
             const keys = Object.keys(parsed).filter(k => parsed[k] != null);
 
             if (keys.length) {
-                html += "<h4>Propiedades del Context:</h4><ol>";
+                html += "<h4>Propiedades del Context:</h4><div>";
                 keys.forEach(k => {
                     let value = parsed[k];
 
@@ -46,19 +46,19 @@ document.getElementById("inspect").addEventListener("click", () => {
                         // mostrar las claves internas si hay
                         const innerKeys = Object.keys(value);
                         if (innerKeys.length) {
-                            html += `<li><strong>${k}:</strong><ul>`;
+                            html += `<details><summary>${k}:</summary>`;
                             innerKeys.forEach(ik => {
-                                html += `<li>${ik}: ${JSON.stringify(value[ik])}</li>`;
+                                html += `<pre>${JSON.stringify(value)}</pre>`;
                             });
-                            html += "</ul></li>";
+                            html += "</details>";
                         } else {
-                            html += `<li><strong>${k}:</strong> {}</li>`;
+                            html += `<details><summary>${k}:</strong> <pre>{}</pre></details>`;
                         }
                     } else {
-                        html += `<li><strong>${k}:</strong> ${value}</li>`;
+                        html += `<details><summary>${k}:</summary> <pre>${JSON.stringify(parsed[k], undefined, 2)}</pre></details>`;
                     }
                 });
-                html += "</ol>";
+                html += "</div>";
             }
             //console.json(parsed);
 
@@ -73,7 +73,14 @@ document.getElementById("inspect").addEventListener("click", () => {
                 var filter = event.target.value;
                 if(filter in parsed){
                     var formatted = JSON.stringify(parsed[filter], undefined, 2);
-                    document.getElementById("outputFilter").innerHTML = `<pre>${formatted}</pre>`
+                    var template = `
+                        <details>
+                            <summary>${filter}</summary>
+                            <pre>${formatted}</pre>
+                        </details>`;
+
+                    document.getElementById("outputFilter").innerHTML = template;
+
                 }
             });
 
